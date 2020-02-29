@@ -18,10 +18,10 @@ class ConvertToHugoPageLeafBundle : Configuration() {
         if (convertToHugoPageLeafBundle) {
             println("convertToHugoPageLeafBundle is turned ON, converting...")
             convert(basePath)
+            println("convertToHugoPageLeafBundle finished.")
         } else {
             println("convertToHugoPageLeafBundle is turned OFF.")
         }
-        println("convertToHugoPageLeafBundle finished.")
     }
 
     private fun convert(path: String) {

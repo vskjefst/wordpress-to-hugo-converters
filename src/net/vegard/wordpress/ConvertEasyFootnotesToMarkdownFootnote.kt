@@ -8,10 +8,10 @@ class ConvertEasyFootnotesToMarkdownFootnote : Configuration() {
         if (convertEasyFootnotesToMarkdownFootnote) {
             println("convertEasyFootnotesToMarkdownFootnote is turned ON, converting...")
             convert(basePath)
+            println("ConvertEasyFootnotesToMarkdownFootnote finished.")
         } else {
             println("convertEasyFootnotesToMarkdownFootnote is turned OFF.")
         }
-        println("ConvertEasyFootnotesToMarkdownFootnote finished.")
     }
 
     private fun convert(path: String) {
