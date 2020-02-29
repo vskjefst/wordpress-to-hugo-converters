@@ -29,7 +29,7 @@ class ConvertEasyFootnotesToMarkdownFootnote : Configuration() {
                             if (lineFootnotes.any()) {
                                 fileFootnotes = fileFootnotes.plus(lineFootnotes)
                                 var convertedLine = originalLine
-                                lineFootnotes.forEachIndexed { index, matchResult ->
+                                lineFootnotes.forEach{ matchResult ->
                                     fileFootnoteNumber++
                                     println("--> Converting to [^$fileFootnoteNumber]: ${matchResult.value}")
                                     convertedLine = convertedLine.replace(matchResult.value, "[^$fileFootnoteNumber]")
@@ -44,7 +44,7 @@ class ConvertEasyFootnotesToMarkdownFootnote : Configuration() {
                     if (fileFootnotes.any()) {
                         fileFootnotes.forEachIndexed { index, matchResult ->
                             val footnoteText =
-                                "[^${index + 1}]: ${Regex("title='(.*?)'>").find(matchResult.value)!!.groups[1]?.value}"
+                                "[^${index + 1}]: ${fixLink(Regex("title='(.*?)'>").find(matchResult.value)!!.groups[1]?.value)}"
                             println("--> Adding footnote: $footnoteText")
                             tempFile.appendText("\n $footnoteText")
                         }
@@ -58,5 +58,18 @@ class ConvertEasyFootnotesToMarkdownFootnote : Configuration() {
                 convert(file.absolutePath)
             }
         }
+    }
+
+    private fun fixLink(value: CharSequence?): String {
+        var innerValue = value ?: ""
+        val links = Regex("<a href=&quot;(.*?)&quot;>(.*?)</a>").findAll(innerValue)
+        if(links.any()) {
+            links.forEach {
+                println("--> Fixing link: ${it.groups[0]?.value}")
+                innerValue = innerValue.toString().replace(it.groups[0]!!.value, "[${it.groups[2]?.value}](${it.groups[1]?.value})")
+            }
+        }
+
+        return innerValue.toString()
     }
 }
