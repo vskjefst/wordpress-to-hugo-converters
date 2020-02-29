@@ -34,9 +34,9 @@ class ConvertEasyFootnotesToMarkdownFootnote : Configuration() {
                                     println("--> Converting to [^$fileFootnoteNumber]: ${matchResult.value}")
                                     convertedLine = convertedLine.replace(matchResult.value, "[^$fileFootnoteNumber]")
                                 }
-                                writer.write("$convertedLine \n")
+                                writer.write("$convertedLine\n")
                             } else {
-                                writer.write(originalLine + "\n")
+                                writer.write("$originalLine\n")
                             }
                         }
                     }
