@@ -11,7 +11,7 @@ class ConvertEasyFootnotesToMarkdownFootnote : Configuration() {
         } else {
             println("convertEasyFootnotesToMarkdownFootnote is turned OFF.")
         }
-        println("And we're done!")
+        println("ConvertEasyFootnotesToMarkdownFootnote finished.")
     }
 
     private fun convert(path: String) {
