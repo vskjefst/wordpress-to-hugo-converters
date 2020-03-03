@@ -5,12 +5,12 @@ import java.io.File
 class ConvertHtmlImageToMarkdownImage : Configuration() {
 
     fun run() {
-        if (convertHtmlLinkToMarkdownLink) {
-            println("convertHtmlLinksToMarkdownLinks is turned ON, converting...")
+        if (convertHtmlImageToMarkdownImage) {
+            println("convertHtmlImageToMarkdownImage is turned ON, converting...")
             convert(basePath)
-            println("ConvertHtmlLinksToMarkdownLinks finished.")
+            println("ConvertHtmlImageToMarkdownImage finished.")
         } else {
-            println("convertHtmlLinksToMarkdownLinks is turned OFF.")
+            println("convertHtmlImageToMarkdownImage is turned OFF.")
         }
     }
 
@@ -21,16 +21,23 @@ class ConvertHtmlImageToMarkdownImage : Configuration() {
                 if (file.extension == "md") {
                     println("Checking Markdown file: \"${file.name}\"")
                     val tempFile = createTempFile()
-                    var fileLinks = emptySequence<MatchResult>()
+                    var fileImages = emptySequence<MatchResult>()
                     tempFile.printWriter().use { writer ->
                         file.forEachLine { originalLine ->
-                            val lineLinks = Regex("<a.*?href=\"(.*?)\".*?>(.*?)</a>").findAll(originalLine)
-                            if (lineLinks.any()) {
-                                fileLinks = fileLinks.plus(lineLinks)
+                            val lineImages = Regex("<img.*?src=[\"|'](.*?)[\"|'].*?/>").findAll(originalLine)
+                            if (lineImages.any()) {
+                                fileImages = fileImages.plus(lineImages)
                                 var convertedLine = originalLine
-                                lineLinks.forEach {
-                                    println("--> Fixing link: ${it.groupValues[0]}")
-                                    convertedLine = convertedLine.replace(it.groupValues[0],"[${it.groupValues[2]}](${it.groupValues[1]})")
+                                lineImages.forEach {
+                                    println("--> Converting image: ${it.groupValues[0]}")
+                                    val altTextMatchResult = Regex("alt=[\"|'](.*?)[\"|']").find(it.groupValues[0])
+                                    val titleMatchResult = Regex("title=[\"|'](.*?)[\"|']").find(it.groupValues[0])
+                                    convertedLine = convertedLine.replace(
+                                        it.groupValues[0],
+                                        "![${if (altTextMatchResult != null) altTextMatchResult.groupValues[1] else ""}]" +
+                                                "(${it.groupValues[1]}" +
+                                                "${if (titleMatchResult != null) " \"" + titleMatchResult.groupValues[1] + "\"" else ""})"
+                                    )
                                 }
                                 writer.write("$convertedLine\n")
                             } else {
@@ -39,7 +46,7 @@ class ConvertHtmlImageToMarkdownImage : Configuration() {
                         }
                     }
 
-                    if (fileLinks.any()) {
+                    if (fileImages.any()) {
                         check(file.delete() && tempFile.renameTo(File(file.absolutePath))) { "Failed to update file" }
                     } else {
                         tempFile.delete()
