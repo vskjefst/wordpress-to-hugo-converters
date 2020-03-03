@@ -24,13 +24,17 @@ class ConvertHtmlLinkToMarkdownLink : Configuration() {
                     var fileLinks = emptySequence<MatchResult>()
                     tempFile.printWriter().use { writer ->
                         file.forEachLine { originalLine ->
-                            val lineLinks = Regex("<a.*?href=\"(.*?)\".*?>(.*?)</a>").findAll(originalLine)
+                            val lineLinks = Regex("<a.*?href=[\"|'](.*?)[\"|'].*?>(.*?)</a>").findAll(originalLine)
                             if (lineLinks.any()) {
                                 fileLinks = fileLinks.plus(lineLinks)
                                 var convertedLine = originalLine
                                 lineLinks.forEach {
-                                    println("--> Fixing link: ${it.groupValues[0]}")
-                                    convertedLine = convertedLine.replace(it.groupValues[0],"[${it.groupValues[2]}](${it.groupValues[1]})")
+                                    println("--> Converting link: ${it.groupValues[0]}")
+                                    val titleMatchResult = Regex("title=[\"|'](.*?)[\"|']").find(it.groupValues[0])
+                                    convertedLine = convertedLine.replace(it.groupValues[0],"[${it.groupValues[2]}]" +
+                                            "(${it.groupValues[1]}" +
+                                            "${if (titleMatchResult != null) " \"" + titleMatchResult.groupValues[1] + "\"" else ""})"
+                                    )
                                 }
                                 writer.write("$convertedLine\n")
                             } else {
