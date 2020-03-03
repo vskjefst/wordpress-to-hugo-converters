@@ -2,10 +2,10 @@ package net.vegard.wordpress
 
 import java.io.File
 
-class ConvertHtmlLinksToMarkdownLinks : Configuration() {
+class ConvertHtmlImageToMarkdownImage : Configuration() {
 
     fun run() {
-        if (convertHtmlLinksToMarkdownLinks) {
+        if (convertHtmlLinkToMarkdownLink) {
             println("convertHtmlLinksToMarkdownLinks is turned ON, converting...")
             convert(basePath)
             println("ConvertHtmlLinksToMarkdownLinks finished.")

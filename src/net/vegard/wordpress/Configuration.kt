@@ -6,6 +6,6 @@ open class Configuration {
     val convertToHugoPageLeafBundle = false
     val convertEasyFootnotesToMarkdownFootnote = false
     val convertHtmlFigureToMarkdownImage = false
-    val convertHtmlLinksToMarkdownLinks = false
+    val convertHtmlLinkToMarkdownLink = false
 
 }
