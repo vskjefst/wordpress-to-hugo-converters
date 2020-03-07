@@ -17,7 +17,7 @@ class ConvertToHugoPageLeafBundle : Configuration() {
     fun run() {
         if (convertToHugoPageLeafBundle) {
             println("convertToHugoPageLeafBundle is turned ON, converting...")
-            convert(basePath)
+            convert(markdownBasePath)
             println("convertToHugoPageLeafBundle finished.")
         } else {
             println("convertToHugoPageLeafBundle is turned OFF.")
@@ -32,7 +32,7 @@ class ConvertToHugoPageLeafBundle : Configuration() {
                 if (matchResult != null) {
                     val year = matchResult.groupValues[1]
                     val monthAndTitle = matchResult.groupValues[2]
-                    val yearDirectory = File("$basePath//$year")
+                    val yearDirectory = File("$markdownBasePath//$year")
                     if (!yearDirectory.exists()) {
                         println("Creating year directory \"$yearDirectory\"")
                         check(yearDirectory.mkdir()) {"Failed to create year directory ${yearDirectory.absolutePath}"}

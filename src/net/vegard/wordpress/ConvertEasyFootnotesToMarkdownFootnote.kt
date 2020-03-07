@@ -7,7 +7,7 @@ class ConvertEasyFootnotesToMarkdownFootnote : Configuration() {
     fun run() {
         if (convertEasyFootnotesToMarkdownFootnote) {
             println("convertEasyFootnotesToMarkdownFootnote is turned ON, converting...")
-            convert(basePath)
+            convert(markdownBasePath)
             println("ConvertEasyFootnotesToMarkdownFootnote finished.")
         } else {
             println("convertEasyFootnotesToMarkdownFootnote is turned OFF.")

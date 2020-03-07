@@ -7,7 +7,7 @@ class ConvertHtmlLinkToMarkdownLink : Configuration() {
     fun run() {
         if (convertHtmlLinkToMarkdownLink) {
             println("convertHtmlLinkToMarkdownLink is turned ON, converting...")
-            convert(basePath)
+            convert(markdownBasePath)
             println("ConvertHtmlLinkToMarkdownLink finished.")
         } else {
             println("convertHtmlLinkToMarkdownLink is turned OFF.")
