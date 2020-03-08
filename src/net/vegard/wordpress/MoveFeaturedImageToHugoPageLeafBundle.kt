@@ -6,26 +6,27 @@ class MoveFeaturedImageToHugoPageLeafBundle : Configuration() {
 
     fun run() {
         if (moveFeaturedImageToHugoPageLeafBundle) {
-            println("moveFeaturedImageToHugoPageLeafBundle is turned ON, converting...")
+            Util().log("moveFeaturedImageToHugoPageLeafBundle is turned ON, converting...")
             move(markdownBasePath)
-            println("MoveFeaturedImageToHugoPageLeafBundle finished.")
+            Util().log("MoveFeaturedImageToHugoPageLeafBundle finished.")
         } else {
-            println("moveFeaturedImageToHugoPageLeafBundle is turned OFF.")
+            Util().log("moveFeaturedImageToHugoPageLeafBundle is turned OFF.")
         }
     }
 
     private fun move(path: String) {
-        println("Now entering \"$path\"")
+        Util().log("Now entering \"$path\"")
         File(path).listFiles()!!.toList().forEach { file ->
             if (file.isFile) {
                 if (file.extension == "md") {
-                    println("Checking Markdown file: \"${file.name}\"")
+                    Util().log("Checking Markdown file: \"${file.name}\"")
                     val tempFile = createTempFile()
                     var foundFeaturedImage = false
                     tempFile.printWriter().use { writer ->
                         file.forEachLine { originalLine ->
                             val featuredImage = Regex("featured_image: (.*)").find(originalLine)
                             if (featuredImage != null) {
+                                Util().log("--> Found featured image \"${featuredImage.groupValues[0]}\".")
                                 foundFeaturedImage = true
                                 var convertedLine = originalLine
                                 val imageUrl = featuredImage.groupValues[1]
@@ -41,7 +42,8 @@ class MoveFeaturedImageToHugoPageLeafBundle : Configuration() {
                     }
 
                     if (foundFeaturedImage) {
-                        check(file.delete() && tempFile.renameTo(File(file.absolutePath))) { "Failed to update file" }
+                        Util().log("--> Writing updated version of \"${file.absolutePath}\"")
+                        check(file.delete() && tempFile.renameTo(File(file.absolutePath))) { "Failed to update file." }
                     } else {
                         tempFile.delete()
                     }

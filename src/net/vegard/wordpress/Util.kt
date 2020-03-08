@@ -2,7 +2,14 @@ package net.vegard.wordpress
 
 import java.io.File
 
-class Util {
+class Util : Configuration() {
+
+    fun log(message: String) {
+        println(message)
+        if (logToFile) {
+            File("console.log").appendText("$message\n")
+        }
+    }
 
     fun moveFile(fileName: String, imagesBasePath: String, destinationPath: String): Boolean {
         println("--> Looking for \"$fileName\".")

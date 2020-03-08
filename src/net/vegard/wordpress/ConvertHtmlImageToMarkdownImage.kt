@@ -6,20 +6,20 @@ class ConvertHtmlImageToMarkdownImage : Configuration() {
 
     fun run() {
         if (convertHtmlImageToMarkdownImage) {
-            println("convertHtmlImageToMarkdownImage is turned ON, converting...")
+            Util().log("convertHtmlImageToMarkdownImage is turned ON, converting...")
             convert(markdownBasePath)
-            println("ConvertHtmlImageToMarkdownImage finished.")
+            Util().log("ConvertHtmlImageToMarkdownImage finished.")
         } else {
-            println("convertHtmlImageToMarkdownImage is turned OFF.")
+            Util().log("convertHtmlImageToMarkdownImage is turned OFF.")
         }
     }
 
     private fun convert(path: String) {
-        println("Now entering \"$path\"")
+        Util().log("Now entering \"$path\".")
         File(path).listFiles()!!.toList().forEach { file ->
             if (file.isFile) {
                 if (file.extension == "md") {
-                    println("Checking Markdown file: \"${file.name}\"")
+                    Util().log("Checking Markdown file: \"${file.name}\".")
                     val tempFile = createTempFile()
                     var fileImages = emptySequence<MatchResult>()
                     tempFile.printWriter().use { writer ->
@@ -29,7 +29,7 @@ class ConvertHtmlImageToMarkdownImage : Configuration() {
                                 fileImages = fileImages.plus(lineImages)
                                 var convertedLine = originalLine
                                 lineImages.forEach {
-                                    println("--> Converting image: ${it.groupValues[0]}")
+                                    Util().log("--> Converting image: \"${it.groupValues[0]}\".")
                                     val altTextMatchResult = Regex("alt=[\"|'](.*?)[\"|']").find(it.groupValues[0])
                                     val titleMatchResult = Regex("title=[\"|'](.*?)[\"|']").find(it.groupValues[0])
                                     val imageUrl = it.groupValues[1]
@@ -52,6 +52,7 @@ class ConvertHtmlImageToMarkdownImage : Configuration() {
                     }
 
                     if (fileImages.any()) {
+                        Util().log("--> Writing updated version of \"${file.absolutePath}\"")
                         check(file.delete() && tempFile.renameTo(File(file.absolutePath))) { "Failed to update file" }
                     } else {
                         tempFile.delete()

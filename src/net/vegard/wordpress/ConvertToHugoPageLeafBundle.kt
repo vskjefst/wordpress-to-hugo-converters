@@ -16,16 +16,16 @@ class ConvertToHugoPageLeafBundle : Configuration() {
 
     fun run() {
         if (convertToHugoPageLeafBundle) {
-            println("convertToHugoPageLeafBundle is turned ON, converting...")
+            Util().log("convertToHugoPageLeafBundle is turned ON, converting...")
             convert(markdownBasePath)
-            println("convertToHugoPageLeafBundle finished.")
+            Util().log("convertToHugoPageLeafBundle finished.")
         } else {
-            println("convertToHugoPageLeafBundle is turned OFF.")
+            Util().log("convertToHugoPageLeafBundle is turned OFF.")
         }
     }
 
     private fun convert(path: String) {
-        println("Now entering \"$path\"")
+        Util().log("Now entering \"$path\".")
         File(path).listFiles()!!.toList().forEach { file ->
             if (file.isFile) {
                 val matchResult = Regex("([0-9]{4})-(.*).md").find(file.name)
@@ -34,13 +34,13 @@ class ConvertToHugoPageLeafBundle : Configuration() {
                     val monthAndTitle = matchResult.groupValues[2]
                     val yearDirectory = File("$markdownBasePath//$year")
                     if (!yearDirectory.exists()) {
-                        println("Creating year directory \"$yearDirectory\"")
-                        check(yearDirectory.mkdir()) {"Failed to create year directory ${yearDirectory.absolutePath}"}
+                        Util().log("Creating year directory \"$yearDirectory\".")
+                        check(yearDirectory.mkdir()) {"Failed to create year directory \"${yearDirectory.absolutePath}\"."}
                     }
                     val postDirectory = File("$yearDirectory//$monthAndTitle")
-                    println("Creating post directory \"$postDirectory\"")
-                    check(postDirectory.mkdir()) {"Failed to create post directory ${postDirectory.absolutePath}"}
-                    println("Moving ${file.absolutePath} to post directory \"$postDirectory\" as index.md.")
+                    Util().log("Creating post directory \"$postDirectory\".")
+                    check(postDirectory.mkdir()) {"Failed to create post directory \"${postDirectory.absolutePath}\"."}
+                    Util().log("Moving \"${file.absolutePath}\" to post directory \"$postDirectory\" as index.md.")
                     file.renameTo(File("$postDirectory//index.md"))
                 }
             } else {

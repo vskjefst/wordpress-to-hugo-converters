@@ -1,3 +1,4 @@
 .idea
 *.iml
 out
+console.log
