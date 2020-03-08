@@ -1,6 +1,6 @@
 # wordpress-to-hugo-converters
 
-This is a set of Kotlin tiny utilities to help you convert your WordPress site to [Hugo](https://en.wikipedia.org/wiki/Hugo_(software)). It's my first go at [Kotlin](https://en.wikipedia.org/wiki/Kotlin_(programming_language), so expect to see a lot of weird code.
+This is a set of Kotlin tiny utilities to help you convert your WordPress site to [Hugo](https://en.wikipedia.org/wiki/Hugo_(software)). It's my first go at [Kotlin](https://en.wikipedia.org/wiki/Kotlin_(programming_language)), so expect to see a lot of weird code.
 
 * Convert a flat Markdown structure to Hugo leaf page bundles.
 * Convert Easy Footnote footnotes to Markdown footntoes.
