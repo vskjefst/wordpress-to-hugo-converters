@@ -10,5 +10,6 @@ open class Configuration {
     val convertEasyFootnotesToMarkdownFootnote = false
     val convertHtmlImageToMarkdownImage = false
     val convertHtmlLinkToMarkdownLink = false
+    val prependCoverDashToFeaturedImage = false
 
 }

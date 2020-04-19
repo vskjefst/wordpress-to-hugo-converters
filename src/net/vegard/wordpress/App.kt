@@ -9,5 +9,6 @@ fun main() {
     ConvertEasyFootnotesToMarkdownFootnote().run()
     ConvertHtmlImageToMarkdownImage().run()
     ConvertHtmlLinkToMarkdownLink().run()
+    PrependCoverDashToFeaturedImage().run()
     Util().log("---END ${LocalDateTime.now()}---")
 }

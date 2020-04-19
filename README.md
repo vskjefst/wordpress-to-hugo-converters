@@ -7,6 +7,7 @@ This is a set of Kotlin tiny utilities to help you convert your WordPress site t
 * Convert HTML image tags to Markdown image tags, and move the images from WordPress' `upload` folder to the corresponding leaf node.
 * Convert HTML anchor tags to Markdown link tags.
 * Move the images from WordPress' `upload` folder to the corresponding leaf node.
+* Prepend "cover-" to any image in the "featured_image" front matter.
 
 DISCLAIMER: Everything is provided as-is. You use everything in this repository at your own risk. I'm not liable for any damage caused by compiling, running, or otherwise using the code in this repository.
 
